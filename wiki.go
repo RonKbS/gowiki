@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	// "io/ioutil"
+	"log"
+	"net/http"
 )
 
+/*
 type Page struct {
 	Title string
 	Body []byte
@@ -29,4 +32,15 @@ func main() {
 	p1.save()
 	p2, _ := loadPage("TestPage")
 	fmt.Println(string(p2.Body))
+}
+*/
+
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+}
+
+func main() {
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
